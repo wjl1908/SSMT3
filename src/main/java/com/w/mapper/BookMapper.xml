@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.w.dao.BookMapper">
+  <resultMap id="BaseResultMap" type="com.w.vo.Book">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="bookName" jdbcType="VARCHAR" property="bookname" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, bookName, author, price
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbbook
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbbook
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.w.vo.Book">
+    insert into tbbook (id, bookName, author, 
+      price)
+    values (#{id,jdbcType=INTEGER}, #{bookname,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.w.vo.Book">
+    insert into tbbook
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="bookname != null">
+        bookName,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bookname != null">
+        #{bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.w.vo.Book">
+    update tbbook
+    <set>
+      <if test="bookname != null">
+        bookName = #{bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.w.vo.Book">
+    update tbbook
+    set bookName = #{bookname,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="findAllBook" resultMap="BaseResultMap">
+    select * from tbbook
+  </select>
+
+  <select id="findBookById" parameterType="Integer" resultMap="BaseResultMap">
+    select * from tbbook where id=#{id}
+  </select>
+
+  <delete id="delBook" parameterType="Integer">
+    delete from tbbook where id=#{id}
+  </delete>
+
+  <insert id="addBook" parameterType="com.w.vo.Book">
+    insert into tbbook values(default ,#{bookname},#{author},#{price})
+  </insert>
+
+  <update id="updateBook" parameterType="com.w.vo.Book">
+    update tbbook set bookName=#{bookname},author=#{author},price=#{price} where id=#{id}
+  </update>
+
+
+
+
+
+
+
+</mapper>
